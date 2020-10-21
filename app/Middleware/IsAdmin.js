@@ -11,15 +11,14 @@ class IsAdmin {
    */
   async handle ({ request, response }, next) {
     
-    // const user = request.user;
+    const user = request.user;
 
-    // if(user.role != 'Admin'){
-    //   return response.status(403).json("Unauthorized");
-    // }else{
-    // }
-    await next();
-
-  }
-}
+    if(user.roles.name != 'Admin'){
+      return response.status(403).json("Unauthorized");
+    }else{
+      await next();
+    }
+  };
+};
 
 module.exports = IsAdmin
