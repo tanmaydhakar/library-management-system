@@ -1,6 +1,7 @@
 "use strict";
 
 const User = use("App/Models/User");
+const Token = use("App/Models/Token");
 
 class authenticationCheck {
   async handle({ request, response }, next) {
@@ -8,15 +9,16 @@ class authenticationCheck {
     const token = headers["authorization"];
 
     if (token) {
-      const user = await User.query()
-        .where("token", token)
-        .with("roles")
-        .fetch();
-      if (!user) {
+      let tokenData = await Token.query().where("token", token).first();
+      if (!tokenData) {
         return response
           .status(400)
-          .json({ message: "Authentication token missing" });
+          .json({ message: "Authorization token missing" });
       } else {
+        tokenData = tokenData.toJSON();
+        const user = await User.query().where("id", tokenData.user_id).first();
+        user.token = token;
+
         request.user = user.toJSON();
         await next();
       }

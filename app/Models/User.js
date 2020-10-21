@@ -15,6 +15,9 @@ class User extends Model {
      * it to the database.
      */
   }
+  tokens () {
+    return this.hasMany('App/Models/Token')
+  }
 }
 
 
