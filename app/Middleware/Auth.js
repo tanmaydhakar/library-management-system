@@ -18,7 +18,7 @@ class authenticationCheck {
         }
       }else{
         return response.status(401).json({
-          message:"Login to access this feature"
+          message:"Please login to access this feature"
         });
       }
 }

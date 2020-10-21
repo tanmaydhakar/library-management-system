@@ -22,4 +22,4 @@ const Route = use('Route')
 Route.post('/api/user', 'UserController.register').validator('register');
 Route.post('/api/login', 'UserController.login').validator('login');
 Route.patch('/api/logout', 'UserController.logout').middleware(['isLoggedIn']);
-Route.patch('/api/user/:userId', 'UserController.update').middleware(['isLoggedIn']).validator('updateUser');
+Route.patch('/api/user/:userId', 'UserController.update').middleware(['isLoggedIn', 'isAdmin']).validator('updateUser');
