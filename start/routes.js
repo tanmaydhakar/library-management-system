@@ -19,7 +19,7 @@ const User = require('../app/Models/User');
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.post('/api/user', 'UserController.register');
-Route.post('/api/login', 'UserController.login');
+Route.post('/api/user', 'UserController.register').validator('register');
+Route.post('/api/login', 'UserController.login').validator('login');
 Route.patch('/api/logout', 'UserController.logout').middleware(['isLoggedIn']);
-Route.patch('/api/user/:userId', 'UserController.update').middleware(['isLoggedIn'])
+Route.patch('/api/user/:userId', 'UserController.update').middleware(['isLoggedIn']).validator('updateUser');

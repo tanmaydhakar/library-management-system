@@ -9,8 +9,7 @@ class authenticationCheck {
       const token = headers['authorization'];
       
       if(token){
-        const user = await User.query().where('token', token).first();
-
+        const user = await User.query().where('token', token).with('roles').fetch();
         if(!user){
           return response.status(401).json({'message':'Please login to access this feature'});
         }else{
