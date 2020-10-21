@@ -4,7 +4,13 @@
 const Model = use('Model')
 
 class UserRole extends Model {
-    
+    users () {
+      return this.belongsTo('App/Models/User')
+    }
+
+    roles () {
+      return this.belongsTo('App/Models/Role')
+    }
 }
 
 module.exports = UserRole

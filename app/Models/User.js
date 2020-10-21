@@ -19,6 +19,9 @@ class User extends Model {
   roles () {
     return this.hasOne('App/Models/UserRole')
   }
+  tokens () {
+    return this.hasMany('App/Models/Token')
+  }
 }
 
 
