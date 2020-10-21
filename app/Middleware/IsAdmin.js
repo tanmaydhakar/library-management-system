@@ -14,7 +14,7 @@ class IsAdmin {
     const user = request.user;
 
     if(user.roles.name != 'Admin'){
-      return response.status(403).json("Unauthorized");
+      return response.status(403).json("Forbidden");
     }else{
       await next();
     }
