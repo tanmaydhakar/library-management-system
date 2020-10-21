@@ -17,7 +17,7 @@ class authenticationCheck {
           await next();
         }
       }else{
-        return response.status(403).json({
+        return response.status(401).json({
           message:"Login to access this feature"
         });
       }
