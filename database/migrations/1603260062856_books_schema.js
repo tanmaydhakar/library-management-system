@@ -9,6 +9,7 @@ class BooksSchema extends Schema {
       table.increments();
       table.string("title", "1080").notNullable().unique();
       table.integer("quantity").notNullable().unique();
+      table.integer("available").notNullable().unique();
       table.timestamps();
     });
   }

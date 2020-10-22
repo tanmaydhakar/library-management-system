@@ -27,3 +27,8 @@ Route.get('/api/books', 'BookController.index').middleware(['isLoggedIn']);
 Route.get('/api/book/:bookId', 'BookController.show').middleware(['isLoggedIn']);
 Route.post('/api/book', 'BookController.create').middleware(['isLoggedIn', 'isAdmin']).validator('updateBook');;
 Route.patch('/api/book/:bookId', 'BookController.update').middleware(['isLoggedIn', 'isAdmin']).validator('updateBook');
+Route.get('/api/requests', 'RequestController.index').middleware(['isLoggedIn']);
+Route.get('/api/request/requestId', 'RequestController.show').middleware(['isLoggedIn']);
+Route.patch('/api/request/requestId', 'RequestController.update').middleware(['isLoggedIn', 'isAdmin']).validator('updateBook');
+Route.post('/api/book/bookId/issue', 'RequestController.issue').middleware(['isLoggedIn']);
+Route.post('/api/book/bookId/return', 'RequestController.return').middleware(['isLoggedIn']);
