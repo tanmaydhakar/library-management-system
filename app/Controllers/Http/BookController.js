@@ -1,47 +1,59 @@
-'use strict'
+"use strict";
 
-const Book = use('App/Models/Book');
+const Book = use("App/Models/Book");
 
 class BookController {
+  async index({ request, response, params }) {
+    const query = request.get();
+    let books = Book.query();
 
-    async index({ request , response }){
-        const books = await Book.query().all();
-
-        return response.status(200).json(books);
-    };
-
-    async show ({ request , response , params}){
-        const book =  await Book.query().where('id', params.bookId).first();
-
-        if(!book){
-            return response.status(400).json({'message':'Invalid book id'});
-        }else{
-            return response.status(200).json(book);
-        }
-    };
-
-    async update({ request , response , params}){
-        const book =  await Book.query().where('id', params.bookId).first();
-        const body = request.post();
-        book.title = body.title;
-        book.quantity = body.quantity;
-        await book.save();
-
-        return response.status(200).json(book);
+    if (query.sort && query.sort == "updated") {
+      books.orderBy("updated_at", "desc");
+    } else if (query.sort && query.sort == "title") {
+      books.orderBy("title", "asc");
+    } else {
+      books.select();
     }
 
-    async create({ request , response}){
-        const { title , quantity } = request.post();
+    books = await books.fetch();
 
-        const book = new Book();
-        book.title = title;
-        book.quantity = quantity;
-        await book.save();
+    return response.status(200).json({ books: books });
+  }
 
-        return response.status(201).json(book);
+  async show({ request, response, params }) {
+    const book = await Book.query().where("id", params.bookId).first();
+
+    if (!book) {
+      return response.status(400).json({ message: "Invalid book id" });
+    } else {
+      return response.status(200).json({ book: book });
     }
+  }
 
+  async update({ request, response, params }) {
+    const book = await Book.query().where("id", params.bookId).first();
+    if (!book) {
+      return response.status(400).json({ message: "Invalid book id" });
+    } else {
+      const body = request.post();
+      book.title = body.title;
+      book.quantity = body.quantity;
+      await book.save();
 
+      return response.status(200).json({ book: book });
+    }
+  }
+
+  async create({ request, response }) {
+    const { title, quantity } = request.post();
+
+    const book = new Book();
+    book.title = title;
+    book.quantity = quantity;
+    await book.save();
+
+    return response.status(201).json({ book: book });
+  }
 }
 
-module.exports = BookController
+module.exports = BookController;
