@@ -12,7 +12,7 @@ class authenticationCheck {
       let tokenData = await Token.query().where("token", token).first();
       if (!tokenData) {
         return response
-          .status(400)
+          .status(401)
           .json({ message: "Invalid Authorization token" });
       } else {
         tokenData = tokenData.toJSON();
