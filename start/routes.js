@@ -1,5 +1,8 @@
 'use strict'
 
+const UserController = require('../app/Controllers/Http/UserController');
+const User = require('../app/Models/User');
+
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -16,6 +19,7 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
-})
+Route.post('/api/user', 'UserController.register').validator('register');
+Route.post('/api/login', 'UserController.login').validator('login');
+Route.patch('/api/logout', 'UserController.logout').middleware(['isLoggedIn']);
+Route.patch('/api/user/:userId', 'UserController.update').middleware(['isLoggedIn', 'isAdmin']).validator('updateUser');
