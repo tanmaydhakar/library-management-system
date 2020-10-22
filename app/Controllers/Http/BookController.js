@@ -34,8 +34,23 @@ class BookController {
       return response.status(400).json({ message: "Invalid book id" });
     } else {
       const body = request.post();
-      book.title = body.title;
-      book.quantity = body.quantity;
+
+      if (body.quantity > book.quantity) {
+        const quantityDifference = body.quantity - book.quantity;
+        book.title = body.title;
+        book.quantity = body.quantity;
+        book.available = book.available + quantityDifference;
+      } else {
+        const quantityDifference = book.quantity - body.quantity;
+        book.title = body.title;
+        book.quantity = body.quantity;
+
+        if (book.available - quantityDifference > 0) {
+          book.available = book.available - quantityDifference;
+        } else {
+          book.available = 0;
+        }
+      }
       await book.save();
 
       return response.status(200).json({ book: book });
@@ -48,6 +63,7 @@ class BookController {
     const book = new Book();
     book.title = title;
     book.quantity = quantity;
+    book.available = quantity;
     await book.save();
 
     return response.status(201).json({ book: book });

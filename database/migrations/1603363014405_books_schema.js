@@ -8,7 +8,8 @@ class BooksSchema extends Schema {
     this.create("books", (table) => {
       table.increments();
       table.string("title", "1080").notNullable().unique();
-      table.integer("quantity").notNullable().unique();
+      table.integer("quantity").notNullable();
+      table.integer("available").notNullable();
       table.timestamps();
     });
   }
