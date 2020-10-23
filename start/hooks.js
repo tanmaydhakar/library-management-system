@@ -16,7 +16,7 @@ hooks.after.providersBooted(() => {
     }
   };
 
-  const UpdateBookQuantityValidator = async (data, field, message, args, get) => {
+  const bookQuantityValidator = async (data, field, message, args, get) => {
     const bookId = get(data, field);
     const requests = await Database.table("requests")
       .where("book_id", bookId)
@@ -28,7 +28,7 @@ hooks.after.providersBooted(() => {
       }
   }
 
-  const BookExists = async (data, field, message, args, get) => {
+  const bookExistsValidator = async (data, field, message, args, get) => {
     const bookId = get(data, field);
     const book = await Database.table("books")
       .where("id", bookId)
@@ -39,6 +39,6 @@ hooks.after.providersBooted(() => {
   }
 
   Validator.extend("passwordValidator", passwordValidator);
-  Validator.extend("UpdateBookQuantityValidator", UpdateBookQuantityValidator);
-  Validator.extend("BookExists", BookExists);
+  Validator.extend("bookQuantityValidator", bookQuantityValidator);
+  Validator.extend("bookExistsValidator", bookExistsValidator);
 });

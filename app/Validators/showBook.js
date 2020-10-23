@@ -11,7 +11,7 @@ class showBook {
 
   get rules () {
     return {
-      bookId: 'BookExists'
+      bookId: 'bookExistsValidator'
     }
   }
 }

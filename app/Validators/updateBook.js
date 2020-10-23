@@ -13,7 +13,7 @@ class updateBook {
     return {
       title: "required|unique:books|string",
       quantity: "required|integer",
-      bookId: "BookExists|UpdateBookQuantityValidator",
+      bookId: "bookExistsValidator|bookQuantityValidator",
     };
   }
 }
