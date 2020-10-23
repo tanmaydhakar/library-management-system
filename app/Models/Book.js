@@ -3,26 +3,25 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use("Model");
 
-class Book extends Model {}
+class Book extends Model {
+  static boot() {
+    super.boot();
 
-Book.return = async function (bookId) {
-  const book = await Book.query().where("id", bookId).first();
-  book.available = book.available + 1;
-  await book.save();
-
-  return book;
-};
-
-Book.issue = async function (bookId) {
-  const book = await Book.query().where("id", bookId).first();
-  if (book.available - 1 >= 0) {
-    book.available = book.available - 1;
-    await book.save();
-
-    return book;
-  } else {
-    return { message: "Book not available for issue" };
+    this.addHook("beforeSave", async (bookInstance) => {
+      if (!bookInstance.available && bookInstance.available != 0) {
+        bookInstance.quantity = bookInstance.available;
+      } else {
+        const quantityDifference = bookInstance.quantity - bookInstance.$originalAttributes.quantity;
+        bookInstance.available = bookInstance.available + quantityDifference;
+      }
+    });
   }
-};
+  requests () {
+    return this.hasMany('App/Models/Request')
+  }
+  book () {
+    return this.belongsTo('App/Models/Book')
+  }
+}
 
 module.exports = Book;
