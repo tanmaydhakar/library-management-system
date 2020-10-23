@@ -21,28 +21,20 @@ class BookController {
   async show({ request, response, params }) {
     const book = await Book.query().where("id", params.bookId).first();
 
-    if (!book) {
-      return response.status(404).json({ message: "Invalid book id" });
-    } else {
-      return response.status(200).json({ book: book });
-    }
+    return response.status(200).json({ book: book });
   }
 
   async update({ request, response, params }) {
+    const body = request.post();
     const book = await Book.query().where("id", params.bookId).first();
-    if (!book) {
-      return response.status(404).json({ message: "Invalid book id" });
-    } else {
-      const body = request.post();
-      const quantityDifference = body.quantity - book.quantity;
+    const quantityDifference = body.quantity - book.quantity;
 
-      book.title = body.title;
-      book.available = book.available + quantityDifference;
-      book.quantity = body.quantity;
-      await book.save();
+    book.title = body.title;
+    book.available = book.available + quantityDifference;
+    book.quantity = body.quantity;
+    await book.save();
 
-      return response.status(200).json({ book: book });
-    }
+    return response.status(200).json({ book: book });
   }
 
   async create({ request, response }) {
