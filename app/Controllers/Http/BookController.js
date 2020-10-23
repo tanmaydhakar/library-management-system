@@ -27,19 +27,12 @@ class BookController {
   async update({ request, response, params }) {
     const body = request.post();
     const book = await Book.query().where("id", params.bookId).first();
-    const available = await this.getAvailableBooks(book, body.quantity);
 
     book.title = body.title;
-    book.available = available;
     book.quantity = body.quantity;
     await book.save();
 
     return response.status(200).json({ book: book });
-  }
-
-  async getAvailableBooks(book, updatedQuantity) {
-    const quantityDifference = updatedQuantity - book.quantity;
-    return book.available + quantityDifference;
   }
 
   async create({ request, response }) {
