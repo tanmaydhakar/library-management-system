@@ -35,9 +35,7 @@ const globalMiddleware = [
 */
 const namedMiddleware = {
   isLoggedIn: 'App/Middleware/Auth',
-  isAdmin: 'App/Middleware/IsAdmin',
-  BookIsAvailable: 'App/Middleware/BookIsAvailable',
-  RequestExist: 'App/Middleware/RequestExist'
+  isAdmin: 'App/Middleware/IsAdmin'
 }
 
 /*

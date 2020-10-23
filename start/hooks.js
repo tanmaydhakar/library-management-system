@@ -15,5 +15,29 @@ hooks.after.providersBooted(() => {
     }
   };
 
+  const bookAvailabilityValidator = async (data, field, message, args, get) => {
+    const bookId = get(data, field);
+
+    const book = await Database.table("books")
+      .where("id", bookId)
+
+      if(!book.available){
+        throw "Book not available for issue";
+      }
+  }
+
+  const requestExistsValidator = async (data, field, message, args, get) => {
+    const requestId = get(data, field);
+
+    const request = await Database.tible("requests")
+      .where("id", requestId)
+
+    if(!request){
+      throw "Request does not exists";
+    }
+  }
+
   Validator.extend("passwordValidator", passwordValidator);
+  Validator.extend("bookAvailabilityValidator", bookAvailabilityValidator);
+  Validator.extend("requestExistsValidator", requestExistsValidator);
 });

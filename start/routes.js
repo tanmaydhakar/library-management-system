@@ -26,7 +26,7 @@ Route.patch('/api/user/:userId', 'UserController.update').middleware(['isLoggedI
 
 Route.get('/api/requests', 'RequestController.index').middleware(['isLoggedIn']);
 Route.get('/api/request/:requestId', 'RequestController.show').middleware(['isLoggedIn', 'RequestExist']);
-Route.post('/api/book/:bookId/issue', 'RequestController.issue').middleware(['isLoggedIn', 'BookExists', 'BookIsAvailable']);
+Route.post('/api/book/:bookId/issue', 'RequestController.issue').middleware(['isLoggedIn', 'BookExists']).validator('bookAvailabilityValidator');
 Route.post('/api/book/:bookId/return', 'RequestController.return').middleware(['isLoggedIn', 'BookExists']);
-Route.patch('/api/request/:requestId/reject', 'RequestController.reject').middleware(['isLoggedIn', 'isAdmin', 'RequestExist']);
-Route.patch('/api/request/:requestId/accept', 'RequestController.accept').middleware(['isLoggedIn', 'isAdmin', 'RequestExist']);
+Route.patch('/api/request/:requestId/reject', 'RequestController.reject').middleware(['isLoggedIn', 'isAdmin']).validator('');
+Route.patch('/api/request/:requestId/accept', 'RequestController.accept').middleware(['isLoggedIn', 'isAdmin']);
