@@ -23,7 +23,7 @@ Route.post('/api/user', 'UserController.register').validator('register');
 Route.post('/api/login', 'UserController.login').validator('login');
 Route.patch('/api/logout', 'UserController.logout').middleware(['isLoggedIn']);
 Route.patch('/api/user/:userId', 'UserController.update').middleware(['isLoggedIn', 'isAdmin']).validator('updateUser');
-Route.get('/api/requests', 'RequestController.index').middleware(['isLoggedIn']);
+Route.get('/api/requests', 'RequestController.index').middleware(['isLoggedIn']).validator('indexRequests');
 Route.get('/api/request/:requestId', 'RequestController.show').middleware(['isLoggedIn']).validator('showRequest');
 Route.post('/api/book/:bookId/issue', 'RequestController.issue').middleware(['isLoggedIn']).validator('issueBook');
 Route.post('/api/book/:bookId/return', 'RequestController.return').middleware(['isLoggedIn']).validator('returnBook');

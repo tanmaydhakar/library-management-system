@@ -16,8 +16,21 @@ class RequestController {
       bookRequests.where("status", "rejected");
     } else if (query.status && query.status == "returned") {
       bookRequests.where("status", "returned");
-    } else {
+    }
+
+    if (
+      (query.userId && request.user.roles.name === "admin") ||
+      query.userId == request.user.id
+    ) {
+      bookRequests.where("user_id", query.userId);
+    } else if (!query.userId && request.user.roles.name !== "admin") {
+      bookRequests.where("user_id", request.user.id);
+    } else if (request.user.roles.name === "admin") {
       bookRequests.select();
+    } else {
+      return response
+        .status(401)
+        .json({ message: "You are unauthorized to access this resource" });
     }
 
     bookRequests = await bookRequests.fetch();
