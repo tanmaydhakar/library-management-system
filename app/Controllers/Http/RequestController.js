@@ -44,7 +44,16 @@ class RequestController {
       .where("id", params.requestId)
       .first();
 
-    return response.status(200).json({ request: bookRequest });
+    if (
+      bookRequest.user_id == request.user.id ||
+      request.user.roles.name === "admin"
+    ) {
+      return response.status(200).json({ request: bookRequest });
+    } else {
+      return response
+        .status(401)
+        .json({ message: "You are unauthorized to access this resource" });
+    }
   }
 
   async issue({ request, response, params }) {
