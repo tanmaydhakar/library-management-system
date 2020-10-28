@@ -13,9 +13,8 @@ class IsAdmin {
    */
   async handle({ request, response }, next) {
     const user = request.user;
-    const role = await Role.query().where("id", user.roles.role_id).first();
 
-    if (role.name != "admin") {
+    if (user.roles.name != "admin") {
       return response.status(403).json({ message: "Forbidden" });
     } else {
       await next();

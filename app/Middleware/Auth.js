@@ -1,6 +1,7 @@
 "use strict";
 
 const User = use("App/Models/User");
+const Role = use("App/Models/Role");
 const Token = use("App/Models/Token");
 
 class authenticationCheck {
@@ -16,10 +17,15 @@ class authenticationCheck {
           .json({ message: "Invalid Authorization token" });
       } else {
         tokenData = tokenData.toJSON();
-        const user = await User.query().where("id", tokenData.user_id).with("roles").first();
+        let user = await User.query().where("id", tokenData.user_id).with("roles").first();
+        user = user.toJSON();
+        let role = await Role.query().where("id", user.roles.id).first();
+        role = role.toJSON();
+
+        user.roles = role;
         user.token = token;
 
-        request.user = user.toJSON();
+        request.user = user;
         await next();
       }
     } else {

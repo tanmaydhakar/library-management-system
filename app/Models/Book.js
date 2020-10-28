@@ -8,13 +8,19 @@ class Book extends Model {
     super.boot();
 
     this.addHook("beforeSave", async (bookInstance) => {
-      if (!bookInstance.available) {
+      if (!bookInstance.available && bookInstance.available != 0) {
         bookInstance.quantity = bookInstance.available;
       } else {
         const quantityDifference = bookInstance.quantity - bookInstance.$originalAttributes.quantity;
         bookInstance.available = bookInstance.available + quantityDifference;
       }
     });
+  }
+  requests () {
+    return this.hasMany('App/Models/Request')
+  }
+  book () {
+    return this.belongsTo('App/Models/Book')
   }
 }
 
