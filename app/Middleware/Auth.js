@@ -19,7 +19,7 @@ class authenticationCheck {
         tokenData = tokenData.toJSON();
         let user = await User.query().where("id", tokenData.user_id).with("roles").first();
         user = user.toJSON();
-        let role = await Role.query().where("id", user.roles.id).first();
+        let role = await Role.query().where("id", user.roles.role_id).first();
         role = role.toJSON();
 
         user.roles = role;
