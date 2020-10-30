@@ -9,7 +9,7 @@ class Book extends Model {
 
     this.addHook("beforeSave", async (bookInstance) => {
       if (!bookInstance.available && bookInstance.available != 0) {
-        bookInstance.quantity = bookInstance.available;
+        bookInstance.available = bookInstance.quantity;
       } else {
         const quantityDifference = bookInstance.quantity - bookInstance.$originalAttributes.quantity;
         bookInstance.available = bookInstance.available + quantityDifference;
