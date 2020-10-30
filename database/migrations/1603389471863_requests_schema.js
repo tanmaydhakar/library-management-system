@@ -8,7 +8,7 @@ class RequestsSchema extends Schema {
     this.create('requests', (table) => {
       table.increments()
       table.integer('book_id').unsigned().references('id').inTable('books')
-      table.integer('user_id').unsigned().references('id').inTable('user')
+      table.integer('user_id').unsigned().references('id').inTable('users')
       table.string('type', 50).notNullable()
       table.string('status', 50).notNullable()
       table.timestamps()

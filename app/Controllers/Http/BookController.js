@@ -41,7 +41,6 @@ class BookController {
     const book = new Book();
     book.title = title;
     book.quantity = quantity;
-    book.available = quantity;
     await book.save();
 
     return response.status(201).json({ book: book });
